@@ -89,7 +89,7 @@ bool ngraph::pass::CommonOptimizations::run_on_function(std::shared_ptr<ngraph::
     decomp->add_matcher<ngraph::pass::ConvertReduceSumToPooling>();
     decomp->add_matcher<ngraph::pass::ConvertBroadcastToTiles>();
     decomp->add_matcher<ngraph::pass::ConvertMod>();
-    decomp->add_matcher<ngraph::pass::ConvertGELU>();
+//    decomp->add_matcher<ngraph::pass::ConvertGELU>();
     decomp->add_matcher<ngraph::pass::ConvertMinimum>();
     decomp->add_matcher<ngraph::pass::ConvertSubtract>();
     decomp->add_matcher<ngraph::pass::ConvertDivide>();

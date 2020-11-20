@@ -34,32 +34,37 @@ NGRAPH_SUPPRESS_DEPRECATED_START
 constexpr NodeTypeInfo op::Gelu::type_info;
 
 op::Gelu::Gelu(const Output<Node>& data)
-    : FusedOp({data})
+    : Op({data})
 {
     constructor_validate_and_infer_types();
 }
+//op::Gelu::Gelu(const Output<Node>& data)
+//    : FusedOp({data})
+//{
+//    constructor_validate_and_infer_types();
+//}
 
 bool ngraph::op::v0::Gelu::visit_attributes(AttributeVisitor& visitor)
 {
     return true;
 }
 
-// f(x) = 0.5 * x * (1.0 + erf( x / sqrt(2.0) )
-OutputVector op::Gelu::decompose_op() const
-{
-    auto data = input_value(0);
-
-    shared_ptr<ngraph::Node> half =
-        builder::make_constant(data.get_element_type(), data.get_shape(), 0.5);
-
-    shared_ptr<ngraph::Node> one =
-        builder::make_constant(data.get_element_type(), data.get_shape(), 1.0);
-
-    shared_ptr<ngraph::Node> sqrt_two =
-        builder::make_constant(data.get_element_type(), data.get_shape(), std::sqrt(2.0));
-
-    return {half * data * (one + make_shared<ngraph::op::Erf>(data / sqrt_two))};
-}
+//// f(x) = 0.5 * x * (1.0 + erf( x / sqrt(2.0) )
+//OutputVector op::Gelu::decompose_op() const
+//{
+//    auto data = input_value(0);
+//
+//    shared_ptr<ngraph::Node> half =
+//        builder::make_constant(data.get_element_type(), data.get_shape(), 0.5);
+//
+//    shared_ptr<ngraph::Node> one =
+//        builder::make_constant(data.get_element_type(), data.get_shape(), 1.0);
+//
+//    shared_ptr<ngraph::Node> sqrt_two =
+//        builder::make_constant(data.get_element_type(), data.get_shape(), std::sqrt(2.0));
+//
+//    return {half * data * (one + make_shared<ngraph::op::Erf>(data / sqrt_two))};
+//}
 
 shared_ptr<Node> op::Gelu::clone_with_new_inputs(const OutputVector& new_args) const
 {
@@ -70,7 +75,7 @@ shared_ptr<Node> op::Gelu::clone_with_new_inputs(const OutputVector& new_args) c
     return make_shared<Gelu>(new_args.at(0));
 }
 
-void op::Gelu::pre_validate_and_infer_types()
+void op::Gelu::validate_and_infer_types()
 {
     element::Type input_element_type = get_input_element_type(0);
     PartialShape input_pshape = get_input_partial_shape(0);
@@ -81,8 +86,21 @@ void op::Gelu::pre_validate_and_infer_types()
                           input_element_type,
                           ").");
 
-    if (input_pshape.is_dynamic())
-    {
-        set_output_type(0, input_element_type, input_pshape);
-    }
+    set_output_type(0, input_element_type, input_pshape);
 }
+//void op::Gelu::pre_validate_and_infer_types()
+//{
+//    element::Type input_element_type = get_input_element_type(0);
+//    PartialShape input_pshape = get_input_partial_shape(0);
+//
+//    NODE_VALIDATION_CHECK(this,
+//                          input_element_type.is_dynamic() || input_element_type.is_real(),
+//                          "Argument element type must be f16, bf16, f32, f64 or dynamic (got ",
+//                          input_element_type,
+//                          ").");
+//
+//    if (input_pshape.is_dynamic())
+//    {
+//        set_output_type(0, input_element_type, input_pshape);
+//    }
+//}

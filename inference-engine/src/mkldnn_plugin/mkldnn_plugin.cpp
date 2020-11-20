@@ -192,7 +192,7 @@ static void Transformation(ICNNNetwork::Ptr& clonedNetwork, const Config& conf) 
             });
 
     // List of enabled/disabled transformations
-    pass_config->disable<ngraph::pass::ConvertGELU>();
+//    pass_config->disable<ngraph::pass::ConvertGELU>();
     pass_config->disable<ngraph::pass::HSwishDecomposition>();
     pass_config->disable<ngraph::pass::ReduceL1Decomposition>();
     pass_config->disable<ngraph::pass::ReduceL2Decomposition>();

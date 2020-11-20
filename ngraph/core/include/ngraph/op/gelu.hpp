@@ -30,7 +30,7 @@ namespace ngraph
         {
             /// \brief Gaussian Error Linear Unit
             /// f(x) = 0.5 * x * (1 + erf( x / sqrt(2) )
-            class NGRAPH_API Gelu : public ngraph::op::util::FusedOp
+            class NGRAPH_API Gelu : public ngraph::op::Op
             {
             public:
                 static constexpr NodeTypeInfo type_info{"Gelu", 0};
@@ -42,9 +42,10 @@ namespace ngraph
                 Gelu(const Output<Node>& data);
 
                 bool visit_attributes(AttributeVisitor& visitor) override;
-                virtual OutputVector decompose_op() const override;
+//                virtual OutputVector decompose_op() const override;
 
-                void pre_validate_and_infer_types() override;
+                void validate_and_infer_types() override;
+//                void pre_validate_and_infer_types() override;
 
                 virtual std::shared_ptr<Node>
                     clone_with_new_inputs(const OutputVector& new_args) const override;
